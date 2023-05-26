@@ -56,8 +56,6 @@ func _draw():
 
 
 func _process(delta):
-#	print(1 / delta)
-	
 	if speed == 0:
 		return
 	
@@ -82,14 +80,18 @@ func _input(event):
 				if mouse_x > cell.position.x and mouse_x < cell.position.x + cell.size.x:
 					cell_index = cells.find(cell)
 			
+#			if cell_index:
+#				var spread = 5
+#				for offset in range(-spread, spread):
+#					var cell = cells[cell_index + offset]
+#					var energy_added = sin(offset)
+#					energy_state += abs(energy_add)
+#					cells[cell_index + offset].height = energy_added
 			if cell_index:
-				var spread = 5
-				for offset in range(-spread, spread):
-					var cell = cells[cell_index + offset]
-					var energy_added = sin(offset)
-					energy_state += abs(energy_add)
-					cells[cell_index + offset].height = energy_added
-			
+				var cell = cells[cell_index]
+				var energy_added = 1
+				energy_state += 1
+				cells[cell_index].height = energy_added
 			else:
 				print("no cell selected")
 

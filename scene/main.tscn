@@ -1,0 +1,161 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcx4pm7lffyoc"]
+
+[ext_resource type="PackedScene" uid="uid://ctyc303omv442" path="res://scene/GUI/slider.tscn" id="1_j8qn3"]
+[ext_resource type="PackedScene" uid="uid://dt16ajdec24yr" path="res://scene/grid.tscn" id="2_78ayn"]
+[ext_resource type="Script" path="res://script/GUI/fps_label.gd" id="2_y6lug"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_vhtak"]
+keycode = 82
+
+[sub_resource type="Shortcut" id="Shortcut_x1rqa"]
+events = [SubResource("InputEventKey_vhtak")]
+
+[node name="main" type="Node2D"]
+
+[node name="interface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 16.0
+offset_right = 640.0
+offset_bottom = 88.0
+grow_horizontal = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="upd_per_frame" parent="interface" instance=ExtResource("1_j8qn3")]
+layout_mode = 1
+anchor_left = 0.064
+anchor_top = 0.064
+anchor_right = 0.384
+anchor_bottom = 0.128
+offset_right = -3.05176e-05
+title = "Updates per frame"
+
+[node name="time_delta" parent="interface" instance=ExtResource("1_j8qn3")]
+layout_mode = 1
+anchor_left = 0.616
+anchor_top = 0.064
+anchor_right = 0.936
+anchor_bottom = 0.128
+offset_left = -6.10352e-05
+min_value = 0.01
+max_value = 0.1
+step = 0.01
+value = 0.01
+exp_edit = true
+rounded = false
+title = "Time delta(seconds)"
+
+[node name="restart" type="Button" parent="interface"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.064
+anchor_right = 0.552
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = 0.0399971
+offset_right = 0.720001
+offset_bottom = -27.616
+shortcut = SubResource("Shortcut_x1rqa")
+text = "Restart"
+
+[node name="fps" type="Label" parent="interface"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.062
+anchor_right = 0.55
+anchor_bottom = 0.166
+offset_top = 40.32
+offset_bottom = -0.240005
+text = "fps: 60"
+horizontal_alignment = 3
+script = ExtResource("2_y6lug")
+
+[node name="VSlider" type="VSlider" parent="interface"]
+layout_mode = 0
+offset_left = 568.0
+offset_top = 112.0
+offset_right = 584.0
+offset_bottom = 317.0
+min_value = 1.0
+max_value = 255.0
+value = 1.0
+exp_edit = true
+rounded = true
+
+[node name="Label" type="Label" parent="interface/VSlider"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = 11.0
+offset_right = 43.0
+offset_bottom = 37.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Brightness"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="interface"]
+layout_mode = 0
+offset_left = 512.0
+offset_top = 384.0
+offset_right = 640.0
+offset_bottom = 410.0
+text = "Presets"
+horizontal_alignment = 1
+
+[node name="is_border" type="CheckButton" parent="interface/Label"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 120.0
+offset_bottom = 63.0
+text = "border"
+
+[node name="is_slits" type="CheckButton" parent="interface/Label"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 64.0
+offset_right = 120.0
+offset_bottom = 95.0
+text = "slits"
+
+[node name="is_lens" type="CheckButton" parent="interface/Label"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 120.0
+offset_bottom = 127.0
+text = "lens"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 512.0
+offset_bottom = 576.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(448, 448)
+render_target_update_mode = 4
+
+[node name="2D grid" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_78ayn")]
+
+[connection signal="value_changed" from="interface/upd_per_frame" to="SubViewportContainer/SubViewport/2D grid" method="_on_upd_per_frame_value_changed"]
+[connection signal="value_changed" from="interface/time_delta" to="SubViewportContainer/SubViewport/2D grid" method="_on_time_delta_value_changed"]
+[connection signal="pressed" from="interface/restart" to="interface/upd_per_frame" method="_on_restart_pressed"]
+[connection signal="pressed" from="interface/restart" to="interface/time_delta" method="_on_restart_pressed"]
+[connection signal="pressed" from="interface/restart" to="SubViewportContainer/SubViewport/2D grid" method="_on_restart_pressed"]
+[connection signal="value_changed" from="interface/VSlider" to="SubViewportContainer/SubViewport/2D grid" method="_on_v_slider_value_changed"]
+[connection signal="toggled" from="interface/Label/is_border" to="SubViewportContainer/SubViewport/2D grid" method="_on_is_border_toggled"]
+[connection signal="toggled" from="interface/Label/is_slits" to="SubViewportContainer/SubViewport/2D grid" method="_on_is_slits_toggled"]
+[connection signal="toggled" from="interface/Label/is_lens" to="SubViewportContainer/SubViewport/2D grid" method="_on_is_lens_toggled"]

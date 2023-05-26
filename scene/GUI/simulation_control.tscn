@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://w1wnbkgognl6"]
+
+[ext_resource type="PackedScene" uid="uid://ctyc303omv442" path="res://scene/GUI/slider.tscn" id="1_gyvau"]
+[ext_resource type="Script" path="res://script/GUI/fps_label.gd" id="2_nv3vr"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_vhtak"]
+keycode = 82
+
+[sub_resource type="Shortcut" id="Shortcut_x1rqa"]
+events = [SubResource("InputEventKey_vhtak")]
+
+[node name="interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="upd_per_frame" parent="." instance=ExtResource("1_gyvau")]
+layout_mode = 1
+anchor_left = 0.064
+anchor_top = 0.064
+anchor_right = 0.384
+anchor_bottom = 0.128
+offset_right = -3.05176e-05
+title = "Updates per frame"
+
+[node name="time_delta" parent="." instance=ExtResource("1_gyvau")]
+layout_mode = 1
+anchor_left = 0.616
+anchor_top = 0.064
+anchor_right = 0.936
+anchor_bottom = 0.128
+offset_left = -6.10352e-05
+min_value = 0.001
+max_value = 0.1
+step = 0.001
+value = 0.01
+exp_edit = true
+rounded = false
+allow_greater = false
+title = "Time delta(seconds)"
+
+[node name="restart" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.448
+anchor_top = 0.064
+anchor_right = 0.552
+anchor_bottom = 0.112
+offset_left = 0.279999
+offset_top = 0.0399971
+offset_right = 0.720001
+offset_bottom = 0.32
+shortcut = SubResource("Shortcut_x1rqa")
+text = "Restart"
+
+[node name="fps" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.45
+anchor_top = 0.062
+anchor_right = 0.55
+anchor_bottom = 0.166
+offset_top = 40.32
+offset_bottom = -0.240005
+text = "fps: 60"
+horizontal_alignment = 3
+script = ExtResource("2_nv3vr")
