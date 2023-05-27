@@ -1,13 +1,11 @@
 extends ColorRect
 
 var height: float = 0.0
+var velocity: float = 0.0
 var mobility: float = 1.0
 
-var velocity: float = 0.0
-
+var size_setter: Vector2 = Vector2.ONE
 var exposure: float = 1
-
-var size_setter: Vector2 = Vector2.ONE * 5
 
 
 func _ready():
